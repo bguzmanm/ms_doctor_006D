@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Specialty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

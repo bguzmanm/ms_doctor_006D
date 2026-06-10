@@ -1,7 +1,9 @@
 package cl.duoc.medicos.service.impl;
 
+import cl.duoc.medicos.dto.DoctorRequestDto;
 import cl.duoc.medicos.dto.DoctorResponseDto;
 import cl.duoc.medicos.model.Doctor;
+import cl.duoc.medicos.model.Specialty;
 import cl.duoc.medicos.repository.DoctorRepository;
 import cl.duoc.medicos.service.DoctorService;
 import lombok.RequiredArgsConstructor;
@@ -26,20 +28,31 @@ public class DoctorServiceImpl implements DoctorService {
         );
     }
 
-    private Doctor toEntity(DoctorResponseDto dto) {
+    private DoctorRequestDto toDtoReq(Doctor doctor) {
+        return new DoctorRequestDto(
+                doctor.getName(),
+                doctor.getLastName(),
+                doctor.getEmail(),
+                doctor.getPhone()
+        );
+    }
+
+    private Doctor toEntity(DoctorRequestDto dto) {
         return new Doctor(
-                dto.getId(),
+                0L,
                 dto.getName(),
                 dto.getLastName(),
                 dto.getEmail(),
                 dto.getPhone(),
-                dto.getSpecialty()
+                new Specialty(999L, "en configuración")
         );
     }
 
+
+
     @Override
-    public List<DoctorResponseDto> findAll() {
-        return repository.findAll().stream().map(this::toDto).toList();
+    public List<Doctor> findAll() {
+        return repository.findAll();
     }
 
     @Override
@@ -48,12 +61,12 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public DoctorResponseDto findById(Long id) {
-        return repository.findById(id).map(this::toDto).orElse(null);
+    public Doctor findById(Long id) {
+        return repository.findById(id).orElse(null);
     }
 
     @Override
-    public DoctorResponseDto save(DoctorResponseDto dto) {
+    public DoctorResponseDto save(DoctorRequestDto dto) {
         return this.toDto(repository.save(this.toEntity(dto)));
     }
 

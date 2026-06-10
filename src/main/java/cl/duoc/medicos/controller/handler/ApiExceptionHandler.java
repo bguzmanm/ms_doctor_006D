@@ -35,7 +35,7 @@ public class ApiExceptionHandler {
         Map<String, String> errors = new HashMap<>();
         errors.put("message", ex.getMessage());
 
-        logger.error(ex.getMessage());
+        logger.error("Error no controlado: ", ex);
 
         return ResponseEntity.badRequest().body(errors);
     }
